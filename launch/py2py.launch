@@ -1,7 +1,8 @@
-<launch>	
+<launch>
 	<node pkg="performance_tests" type="py_talker.py" name="py_talker">
 		<param name="hertz" type="int" value="3000"/>
 	</node>
 	
-	<node pkg="performance_tests" type="cpp_listener" name="cpp_listener"/>
+	
+	<node pkg="performance_tests" type="py_listener.py" name="py_listener"/>
 </launch>

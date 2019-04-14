@@ -3,5 +3,5 @@
 		<param name="hertz" type="int" value="1"/>
 	</node>
 
-	<node pkg="performance_tests" type="cpp_listener" name="cpp_listener"/>
+	<node pkg="performance_tests" type="py_listener.py" name="py_listener"/>
 </launch>
