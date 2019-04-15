@@ -3,30 +3,41 @@
 import rospy
 from performance_tests.msg import SuperAwesome
 from threading import Thread
-import time
+import math
 
 oldListenerTime = None
 lhz = 0.0
+thz = 0.0
 
 def callback(msg):
     global oldListenerTime
     global lhz
+    global thz
 
     # Compare time and hertz : local time vs. header time
     nt = rospy.Time.now()
     localPeriodT = nt - oldListenerTime
     oldListenerTime = nt
 
+    thz = msg.hertz
     lhz = 1.0 / localPeriodT.to_sec()
 
 
 def pub_result():
     global lhz
+    global thz
 
-    rate = rospy.Rate(5)
+    rate = rospy.Rate(1000)
+
     while not rospy.is_shutdown():
-        rospy.loginfo('py result hertz : ', lhz)
-        rate.sleep()
+        sumdhz = 0.0
+        for i in list(range(1000)):
+            diffhz = math.fabs(lhz - thz)
+            sumdhz += diffhz
+            rate.sleep()
+        avrdhz = sumdhz / 500.0
+
+        rospy.loginfo('py result hertz diff : %f', avrdhz)
 
 
 def listener():
